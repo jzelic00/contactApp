@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Contact List Application</h2>
+        </div>
+        <div class="col-3">
+            <a href="#!/showAll" class="btn btn-info form-control text-white">Show all</a>
+        </div>
+        <div class="col-3">
+            <a href="#!/AddContact" class="btn btn-info form-control text-white">Add Contact</a>
+        </div>
+    </div>
+    <div ng-view></div>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/Scripts/Controller/HomeController.js"></script>
+    <script src="~/js/Scripts/Controller/EditContactController.js"></script>
+    <script src="~/js/Scripts/Controller/AddContactController.js"></script>
+    <script src="~/js/Scripts/Services/HttpRequestServices.js"></script>
+    <script src="~/js/Scripts/Services/UIServices.js"></script>
+}

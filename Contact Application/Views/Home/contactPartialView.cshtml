@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "AddContact";
+    Layout = null;
+}
+
+<div class="col-12 border p-3 mt-3">
+   
+    <table class="table table-striped border">
+        <tr>
+            <td>Search By:</td>
+            <td>
+                <select ng-model="selectedCriteria" ng-options="S for S in Selectors">
+                </select>
+            </td>
+            <td>Enter Search Value:</td>
+            <td>
+                <input type="text" ng-model="filterValue" class="form-control"/>
+            </td>
+            <td>
+                <a ng-href="#!/search/{{selectedCriteria}}/{{filterValue}}" class="btn btn-success btn-sm text-white">Search</a>
+            </td>
+        </tr>
+        <tr class="table-secondary">
+            <th>
+                <label>Name</label>
+            </th>
+            <th>
+                <label>Lastname</label>
+            </th>
+            <th>
+                <label>Bookmarked</label>
+            </th>
+            <th>
+
+            </th>
+        </tr>
+
+        <tr ng-repeat="contact in contacts">
+            <td>
+                {{contact.name}}
+            </td>
+            <td>
+                {{contact.lastName}}
+            </td>
+           
+            <td>
+                <button ng-click="DeleteContact(contact)" class="btn btn-danger btn-sm">Delete</button>
+                <a ng-href="#!/contact/{{contact.userID}}" class="btn btn-success btn-sm text-white">Details/Edit</a>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
