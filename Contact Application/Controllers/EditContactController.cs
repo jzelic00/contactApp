@@ -1,4 +1,5 @@
 ﻿using Contact_Application.Models;
+using Contact_Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,35 +11,44 @@ namespace Contact_Application.Controllers
 {
     public class EditContactController : Controller
     {
-        private readonly DatabaseContext _db;
-        public EditContactController(DatabaseContext db)
+        private readonly IService _service;
+
+        public EditContactController(IService service)
         {
-            _db = db;
+            _service = service;
         }
 
         [HttpPut]
-        public JsonResult EditContact(int id,[FromBody]User user)
+        public async Task<ActionResult> EditContact(int id,[FromBody]Contact contact)
         {
-            if (id != user.UserID)
-                return new JsonResult("Krivi id");
+            if (id != contact.ContactID)
+                return BadRequest();
 
-            _db.Entry(user).State = EntityState.Modified;
+            try
+            {
+                await _service.editContact(contact);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500,ex.Message);
+            }
+ 
 
-            _db.SaveChanges();
-
-            return new JsonResult("Sve proslo");
+            return Ok();
         }
+
         [HttpGet]
-        public IActionResult GetContact(int id)
+        public async Task<ActionResult> GetContact(int? id)
         {
+            if (id == null)
+                return BadRequest();
+                           
+            Contact contact = await _service.getSingleContact(id);
+           
+            if (contact == null)
+                return NotFound();
 
-
-            User user = _db.User.Where(p => p.UserID == id)
-                               .Include(p => p.Mail)
-                               .Include(p => p.Number)
-                               .FirstOrDefault();
-
-            return new JsonResult(user);
+            return Ok(contact);
         }
         public IActionResult Index()
         {

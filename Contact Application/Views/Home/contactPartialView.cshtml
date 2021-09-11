@@ -12,6 +12,7 @@
                 <select ng-model="selectedCriteria" ng-options="S for S in Selectors">
                 </select>
             </td>
+
             <td>Enter Search Value:</td>
             <td>
                 <input type="text" ng-model="filterValue" class="form-control"/>
@@ -22,13 +23,17 @@
         </tr>
         <tr class="table-secondary">
             <th>
+                <label>Number</label>
+            </th>
+            <th>
                 <label>Name</label>
             </th>
             <th>
                 <label>Lastname</label>
             </th>
+            
             <th>
-                <label>Bookmarked</label>
+
             </th>
             <th>
 
@@ -37,15 +42,20 @@
 
         <tr ng-repeat="contact in contacts">
             <td>
-                {{contact.name}}
+                {{$index+1}}
             </td>
             <td>
-                {{contact.lastName}}
+                {{contact.Name}}
             </td>
-           
+            <td>
+                {{contact.LastName}}
+            </td>
+           <td>
+
+           </td>
             <td>
                 <button ng-click="DeleteContact(contact)" class="btn btn-danger btn-sm">Delete</button>
-                <a ng-href="#!/contact/{{contact.userID}}" class="btn btn-success btn-sm text-white">Details/Edit</a>
+                <a ng-href="#!/contact/{{contact.ContactID}}" class="btn btn-success btn-sm text-white">Details / Edit</a>
             </td>
         </tr>
 

@@ -11,19 +11,15 @@ namespace Contact_Application.Models
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            //DbContext.Configuration.LazyLoadingEnabled = true;
-            //base.Configuration.ProxyCreationEnabled = true;
-        }
-
-      
+           
+        }     
         public DbSet<Tag> Tag { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Contact> Contact { get; set; }
         public DbSet<Number> Number { get; set; }
         public DbSet<Mail> Mail { get; set; }
            
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-        //base.OnModelCreating(builder); 
            modelBuilder.Seed();
            base.OnModelCreating(modelBuilder);
         }

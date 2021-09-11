@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contact_Application.Models
 {
-    public class UserDTO
+    public class ContactDTO
     {
         public string Name { get; set; }
         public string LastName { get; set; }

@@ -8,21 +8,24 @@ using System.Threading.Tasks;
 
 namespace Contact_Application.Models
 {
-    public class User
+    public class Contact
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserID { get; set; }
+        public int ContactID { get; set; }
         //barem neki podatak ce biti u bazi i onda kasnije preko edita se moze dodati ostalo
-        //[Required]
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
         public string Address { get; set; }
+        [Required]
         //Navigation property
         public int TagID { get; set; }
         [ForeignKey("TagID")]
         public Tag Tag{get; set;}
-        public IList<Number> Number{get; set;}
+        public IList<Number> Number {get; set;}
         public IList<Mail> Mail{ get; set; }
        
     }

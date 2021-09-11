@@ -15,9 +15,9 @@ namespace Contact_Application.Models
         public string MailAddress { get; set; }
 
         //Navigation property
-        public int UserID { get; set; }
-        [ForeignKey("UserID")]
-        public User User { get; set; }
+        public int ContactID { get; set; }
+        [ForeignKey("ContactID")]
+        public Contact Contact { get; set; }
 
     }
 }

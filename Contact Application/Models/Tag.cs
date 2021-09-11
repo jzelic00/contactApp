@@ -11,7 +11,6 @@ namespace Contact_Application.Models
         [Key]
         public int TagID { get; set; }
         public string TagName { get; set; }
-        //Navigation property
-        //public User User { get;set; }
+        
     }
 }

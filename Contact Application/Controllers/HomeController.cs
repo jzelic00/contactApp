@@ -1,4 +1,6 @@
-﻿using Contact_Application.Models;
+﻿using AutoMapper;
+using Contact_Application.Models;
+using Contact_Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,64 +10,67 @@ using System.Threading.Tasks;
 
 namespace Contact_Application.Controllers
 {
-    //[ApiController]
     //[Route("Home/[Controller]")]
     public class HomeController : Controller
     {
-        private readonly DatabaseContext _db;
-        public HomeController(DatabaseContext db)
+        private readonly IService _service;
+
+        public HomeController(IService service)
         {
-            _db = db;
+            _service = service;
         }
 
         [Route("Home/GetAllContacts")]
         [HttpGet]
-        public JsonResult GetAllContacts()
+        public async Task<ActionResult> GetAllContacts()
         {
-            //nemoj zab prebacit kasnije u servis ili dataaccess
-           
-            List<User> allContacts = _db.User.ToList();
-            return new JsonResult(allContacts);
+            return Ok(await _service.getAllContact());
         }
 
         [Route("Home/TagOptions")]
         [HttpGet]
-        public JsonResult TagOptions()
+        public async Task<ActionResult> TagOptions()
         {
-            //nemoj zab prebacit kasnije u servis ili dataaccess
-
-            List<Tag> allTags = _db.Tag.ToList();
-            return new JsonResult(allTags);
+            return Ok(await _service.getAllTags());
         }
 
         public IActionResult Index()
-        {         
-          return View();
+        {
+            return View();
         }
-
 
         [Route("Home/{filter}/{value}")]
         [HttpGet]
-        public JsonResult GetFilterData(string filter,string value)
+        public async Task<ActionResult> GetFilterData(string filter, string value)
         {
-            List<User> filterData = new List<User>();
+            if (filter == null && value == null)
+                return BadRequest();
 
-            switch (filter)
-            {
-                case "Name":
-                    filterData = _db.User.Where(p => p.Name.Contains(value)).ToList();
-                    break;
-                case "Lastname":
-                    filterData = _db.User.Where(p => p.LastName.Contains(value)).ToList();
-                    break;
-                case "Tag":
-                    filterData = _db.User.Where(p => p.Tag.TagName.Contains(value)).ToList();
-                    break;
-            }
-           
-            return new JsonResult(filterData);
+            IEnumerable<ContactHomePageDTO> _filterData = await _service.getFilterData(filter, value);
+
+            return Ok(_filterData);
         }
-        public IActionResult contactPartialView()
+
+        [Route("Home/delete")]
+        [HttpDelete]
+        public async Task<ActionResult> DeleteContact(int? contactId)
+        {
+            if (contactId == null)
+                return NotFound();
+
+            try
+            {
+                await _service.deleteContact(contactId);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        public ActionResult contactPartialView()
         {
             return PartialView();
         }

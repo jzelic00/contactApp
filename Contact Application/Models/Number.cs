@@ -13,10 +13,9 @@ namespace Contact_Application.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NumberID { get; set; }
         public string PhoneNumber { get; set; }
-
         //Navigation property
-        [ForeignKey("UserID")]
-        public User User { get; set; }
-        public int UserID { get; set; }
+        [ForeignKey("ContactID")]
+        public Contact Contact { get; set; }
+        public int ContactID { get; set; }
     }
 }

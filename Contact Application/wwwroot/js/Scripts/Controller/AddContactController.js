@@ -1,23 +1,17 @@
-﻿app.controller('AddContactController', function ($scope,$http,httpRequestServices) {
+﻿app.controller('AddContactController', function ($scope,UIService,httpRequestServices) {
 
-    $scope.user = {};
+    $scope.contact = {};
     $scope.TagOptions = {};
 
-    $scope.user.Number = [""];
-    $scope.user.Mail = [""];
+    $scope.contact.Number = [{ PhoneNumber: "" }];
+    $scope.contact.Mail = [{ MailAddress: "" }];
     
     $scope.addNewMail = function () {
-        if ($scope.user.Mail[$scope.user.Mail.length - 1] != 0)
-            return $scope.user.Mail.push("");
-
-        alert("Prethno polje mail nije ispunjeno");
+       $scope.contact.Mail= UIService.AddMail($scope.contact.Mail);
     }
 
     $scope.addNewNumber = function () {
-        if ($scope.user.Number[$scope.user.Number.length - 1] != "")
-            return $scope.user.Number.push("");
-
-        alert("Prethodno polje number nije ispunjeno");
+        $scope.contact.Number = UIService.AddPhoneNumber($scope.contact.Number);
     }
 
     //get contacts tags
@@ -26,25 +20,28 @@
     getTagsPromise.
         then(function succesCallback(response) {
             $scope.TagOptions = response.data;
-            console.log(response.data);
+           
         }, function errorCallback(error) {
             alert("Greška u dohvaćanju tagova" + error.statusText);
         });
 
-    $scope.savedata = function (user) {
+    $scope.savedata = function (contact) {
+        contact.TagID = parseInt(contact.TagID);
+        var addContactPromise = httpRequestServices.addContact(contact);
         
-        var addContactPromise = httpRequestServices.addContact(user);
-
         addContactPromise.
             then(function succesCallback(response) {
                 console.log(response.data);
+                alert("Kontakt uspješno dodan");
             }
             ,function errorCallback(error) {
                 alert("Greška u dodavanju kontakta" + error.statusText);
-                console.log(user);
-            });
+                console.log(contact);
+                });
+       
+        $scope.contact = {};
+        $scope.contact.Number = [{ PhoneNumber: "" }];
+        $scope.contact.Mail = [{ MailAddress: "" }];
     }
-
-    
-    
+   
 });

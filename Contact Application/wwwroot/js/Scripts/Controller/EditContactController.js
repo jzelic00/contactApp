@@ -1,23 +1,17 @@
-﻿app.controller('EditContactController', function ($scope, $routeParams, httpRequestServices) {
+﻿app.controller('EditContactController', function ($scope,UIService, $routeParams, httpRequestServices) {
 
-    $scope.user = {};
+    $scope.contact = {};
     $scope.TagOptions = {};
 
-    $scope.user.Number = [""];
-    $scope.user.Mail = [""];
+    $scope.contact.Number = [{ PhoneNumber: "" }];
+    $scope.contact.Mail = [{ MailAddress: "" }];
 
     $scope.addNewMail = function () {
-        if ($scope.user.Mail[$scope.user.Mail.length - 1] != 0)
-            return $scope.user.Mail.push("");
-
-        alert("Prethno polje mail nije ispunjeno");
+        $scope.contact.Mail = UIService.AddMail($scope.contact.Mail);
     }
 
     $scope.addNewNumber = function () {
-        if ($scope.user.Number[$scope.user.Number.length - 1] != "")
-            return $scope.user.Number.push("");
-
-        alert("Prethodno polje number nije ispunjeno");
+        $scope.contact.Number = UIService.AddPhoneNumber($scope.contact.Number);
     }
 
     var id = $routeParams.id;
@@ -27,28 +21,27 @@
 
     getSingleContactPromise.then(function (response) {
         
-        $scope.user = response.data;
+        $scope.contact = response.data;
         //potrebno zbog toga sto nece populate napravit u selecetu ako je inteegr
-        $scope.user.tagID = $scope.user.tagID.toString();
+        $scope.contact.TagID = $scope.contact.TagID.toString();
     }, function errorCallback(error) {
         alert("Greška u dohvaćanju kontakta" + error.statusText);
     });
-    
-
-    
-    $scope.savedata = function (user) {
+      
+    $scope.savedata = function (contact) {
        
-        var editContactPromise = httpRequestServices.editContact(user,id);
+        var editContactPromise = httpRequestServices.editContact(contact,id);
        
         editContactPromise.
             then(function succesCallback(response) {
+                alert("Podaci kontakta uspješno promijenjeni");
                 console.log(response);
             }
             , function errorCallback(error) {
-                alert("Greška u dodavanju kontakta" + error.statusText);
+                alert("Greška u promjeni informacija kontakta" + error.statusText);
             });      
     };
-
+    
     //get contacts tags
     var getTagsPromise = httpRequestServices.getTags();
 

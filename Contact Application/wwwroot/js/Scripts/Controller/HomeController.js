@@ -1,8 +1,8 @@
-﻿app.controller('HomeController', function ($scope,$http,$routeParams,httpRequestServices) {
+﻿app.controller('HomeController', function ($scope,$routeParams,httpRequestServices) {
   
     $scope.Selectors = ["Name", "Lastname", "Tag"];
     $scope.selectedCriteria = ""; 
-    $scope.filterValue = ""; 
+    $scope.filterValue = "";
     $scope.contacts = [];
 
     //ako je korisnik koristio search bar varijable koje je tražio će biti
@@ -30,16 +30,16 @@
             },
                 function (error) {
                     alert("Pogreška kod dohvaćanja svih kontakata "+ error.statusText)
-                });
-                  
+                });                 
      }
 
     //deleting choosen contact
     $scope.DeleteContact = function (contact) {
 
-        var deleteUserPromise = httpRequestServices.deleteMethod(contact.userID);
+        var deleteUserPromise = httpRequestServices.deleteMethod(contact.ContactID);
 
         deleteUserPromise.then(function (response) {
+            alert("Kontakt uspješno obrisan");
             console.log(response.statusText);
         },
             function (error) {

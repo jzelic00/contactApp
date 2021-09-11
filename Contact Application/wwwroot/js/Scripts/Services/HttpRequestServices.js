@@ -14,8 +14,7 @@
         return $http({
             method: 'GET',
             url: "/Home/TagOptions"
-        });
-              
+        });              
     }
 
     //getFilteredData
@@ -33,25 +32,31 @@
     }
 
     //post new contact
-    this.addContact = function (user) {
-        user.TagID = parseInt(user.TagID);
-        console.log(user);
-        return $http.post('/api/AddContact', {user: user });
+    this.addContact = function (contact) {
+        contact.TagID = parseInt(contact.TagID);
+       
+        return $http({
+            method: "post",
+            url: "/AddContactController/AddContact",
+            dataType: 'json',
+            data:contact
+        });
     }
 
     //put new info
-    this.editContact = function (user, id) {
+    this.editContact = function (contact, id) {
         
         return $http({
             method: "put",
-            url: "EditContact/EditContact/" + id,
-            data: user
+            url: "EditContact/EditContact/" + id,           
+            data: contact
         });
     }
-    //delete contact
-    this.deleteMethod = function (userID) {
 
-        return $http.delete('api/delete', { params: { userID: userID } });
+    //delete contact
+    this.deleteMethod = function (ContactID) {
+
+        return $http.delete('Home/delete', { params: { ContactID: ContactID } });
            
     };
 

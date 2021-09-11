@@ -1,4 +1,5 @@
 using Contact_Application.Models;
+using Contact_Application.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +15,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Contact_Application.Repository;
+using Contact_Application.Repositories.Interfaces;
+using Contact_Application.Repository.Interfaces;
+using Contact_Application.Services;
+
 
 namespace Contact_Application
 {
@@ -29,24 +36,48 @@ namespace Contact_Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();           
+            //dodano zbog camelCase u json objektu
+            services.AddMvc()
+                    .AddNewtonsoftJson(options =>
+                    {
+                        options.UseMemberCasing();
+                    });
+
             services.AddControllersWithViews();           
             services.AddControllers();           
             //dodano zbog testiranja s postmanom
             services.AddCors();
 
-            //kod postaja mailoca na server
+
             services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 
             });
+
             services.AddRazorPages();
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            
+
+            //Mapper 
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new ProfileMapper());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+
+            //DI services
+            services.AddSingleton(mapper);
+
+            services.AddScoped<IContactRepositoryAsync, ContactRepository>();
+            services.AddScoped<ITagRepositoryAsync, TagRepository>();
+            services.AddScoped<IService, Service>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +99,14 @@ namespace Contact_Application
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //dodano za pokretanje baze pri startu
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                context.Database.Migrate();
+            }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
