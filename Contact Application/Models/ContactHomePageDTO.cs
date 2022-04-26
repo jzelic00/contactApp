@@ -11,5 +11,7 @@ namespace Contact_Application.Models
         public int ContactID { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
+
+        public Tag Tag { get; set; }
     }
 }

@@ -11,8 +11,7 @@
             <td>
                 <select ng-model="selectedCriteria" ng-options="S for S in Selectors">
                 </select>
-            </td>
-
+            </td>          
             <td>Enter Search Value:</td>
             <td>
                 <input type="text" ng-model="filterValue" class="form-control"/>
@@ -31,10 +30,11 @@
             <th>
                 <label>Lastname</label>
             </th>
-            
-            <th>
 
+            <th>
+                <label>Tag</label>
             </th>
+            
             <th>
 
             </th>
@@ -50,15 +50,14 @@
             <td>
                 {{contact.LastName}}
             </td>
-           <td>
-
-           </td>
+            <td>
+                {{contact.Tag.TagName}}
+            </td>
+            
             <td>
                 <button ng-click="DeleteContact(contact)" class="btn btn-danger btn-sm">Delete</button>
                 <a ng-href="#!/contact/{{contact.ContactID}}" class="btn btn-success btn-sm text-white">Details / Edit</a>
             </td>
         </tr>
-
     </table>
-
 </div>

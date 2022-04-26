@@ -34,8 +34,7 @@
        
         editContactPromise.
             then(function succesCallback(response) {
-                alert("Podaci kontakta uspješno promijenjeni");
-                console.log(response);
+                alert("Podaci kontakta uspješno promijenjeni");               
             }
             , function errorCallback(error) {
                 alert("Greška u promjeni informacija kontakta" + error.statusText);

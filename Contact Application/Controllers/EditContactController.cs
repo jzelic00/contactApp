@@ -33,7 +33,6 @@ namespace Contact_Application.Controllers
                 return StatusCode(500,ex.Message);
             }
  
-
             return Ok();
         }
 

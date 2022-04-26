@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Contact_Application.Controllers
 {
-    //[Route("Home/[Controller]")]
     public class HomeController : Controller
     {
         private readonly IService _service;

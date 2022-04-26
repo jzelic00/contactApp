@@ -30,13 +30,11 @@
         var addContactPromise = httpRequestServices.addContact(contact);
         
         addContactPromise.
-            then(function succesCallback(response) {
-                console.log(response.data);
+            then(function succesCallback(response) {               
                 alert("Kontakt uspješno dodan");
             }
             ,function errorCallback(error) {
-                alert("Greška u dodavanju kontakta" + error.statusText);
-                console.log(contact);
+                alert("Greška u dodavanju kontakta" + error.statusText);               
                 });
        
         $scope.contact = {};

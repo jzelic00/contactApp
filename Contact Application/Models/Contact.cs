@@ -13,7 +13,7 @@ namespace Contact_Application.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ContactID { get; set; }
-        //barem neki podatak ce biti u bazi i onda kasnije preko edita se moze dodati ostalo
+        
         [Required]
         public string Name { get; set; }
         [Required]

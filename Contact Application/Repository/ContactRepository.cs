@@ -35,7 +35,7 @@ namespace Contact_Application.Repository
 
         public async Task<IEnumerable<Contact>> getAllAsync()
         {
-            return await _db.Contact.AsNoTracking().ToListAsync();
+            return await _db.Contact.AsNoTracking().Include(p=>p.Tag).ToListAsync();
         }
 
         public async Task<Contact> getContactByIDAsync(int? id)
@@ -48,7 +48,7 @@ namespace Contact_Application.Repository
 
         public void updateContactInformation(Contact contact)
         {
-            _db.Entry(contact).State = EntityState.Modified;       
+            _db.Entry(contact).State = EntityState.Modified;           
         }
 
         public async Task SaveAsync()

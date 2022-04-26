@@ -25,12 +25,12 @@
        
         var getAllContactsPromise = httpRequestServices.getAllContacts();
 
-            getAllContactsPromise.then(function (response) {
-                $scope.contacts = response.data;       
+        getAllContactsPromise.then(function (response) {           
+            $scope.contacts = response.data;          
             },
-                function (error) {
-                    alert("Pogreška kod dohvaćanja svih kontakata "+ error.statusText)
-                });                 
+            function (error) {
+                alert("Pogreška kod dohvaćanja svih kontakata "+ error.statusText)
+            });                 
      }
 
     //deleting choosen contact
@@ -39,8 +39,7 @@
         var deleteUserPromise = httpRequestServices.deleteMethod(contact.ContactID);
 
         deleteUserPromise.then(function (response) {
-            alert("Kontakt uspješno obrisan");
-            console.log(response.statusText);
+            alert("Kontakt uspješno obrisan");          
         },
             function (error) {
                 alert("Pogreška prilikom brisanja korisnika: "+ error.statusText );
@@ -49,5 +48,4 @@
         var index = $scope.contacts.indexOf(contact);
         $scope.contacts.splice(index, 1);
     }
-
 });
