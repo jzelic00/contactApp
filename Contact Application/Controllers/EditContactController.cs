@@ -20,10 +20,7 @@ namespace Contact_Application.Controllers
 
         [HttpPut]
         public async Task<ActionResult> EditContact(int id,[FromBody]Contact contact)
-        {
-            if (id != contact.ContactID)
-                return BadRequest();
-
+        {           
             try
             {
                 await _service.editContact(contact);

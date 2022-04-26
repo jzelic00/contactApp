@@ -5,9 +5,8 @@
     $scope.filterValue = "";
     $scope.contacts = [];
 
-    //ako je korisnik koristio search bar varijable koje je tražio će biti
-    //pohranjene u routeParamsu i preko http requesta će se popuniti kontakti na 
-    //temelju traženih informacija
+    
+    //using route params for searching and filtering data
     if ($routeParams.filterValue && $routeParams.selectedCriteria)
     {
         var getFilteredDataPromise = httpRequestServices.getFilteredData($routeParams.filterValue, $routeParams.selectedCriteria);
@@ -20,7 +19,7 @@
             });
     }
 
-    //ako je korisnik kliknuo tipku showAll
+    //if user press showAll button
     if ($scope.contacts.length === 0) {
        
         var getAllContactsPromise = httpRequestServices.getAllContacts();

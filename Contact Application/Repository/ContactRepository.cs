@@ -48,7 +48,15 @@ namespace Contact_Application.Repository
 
         public void updateContactInformation(Contact contact)
         {
-            _db.Entry(contact).State = EntityState.Modified;           
+            _db.Entry(contact).State = EntityState.Modified;
+            foreach (var mail in contact.Mail)
+            {
+                _db.Entry(mail).State = EntityState.Modified;
+            }
+            foreach (var number in contact.Number)
+            {
+                _db.Entry(number).State = EntityState.Modified;
+            }
         }
 
         public async Task SaveAsync()
@@ -59,17 +67,17 @@ namespace Contact_Application.Repository
         #region filter methods
         public async Task<IEnumerable<Contact>> filterByName(string value)
         {
-            return await _db.Contact.AsNoTracking().Where(p => p.Name.Contains(value)).ToListAsync();
+            return await _db.Contact.AsNoTracking().Where(p => p.Name.Contains(value)).Include(p=>p.Tag).ToListAsync();
         }
 
         public async Task<IEnumerable<Contact>> filterByLastname(string value)
         {
-            return await _db.Contact.AsNoTracking().Where(p => p.LastName.Contains(value)).ToListAsync();
+            return await _db.Contact.AsNoTracking().Where(p => p.LastName.Contains(value)).Include(p => p.Tag).ToListAsync();
         }
 
         public async Task<IEnumerable<Contact>> filterByTag(string value)
         {
-            return await _db.Contact.AsNoTracking().Where(p => p.Tag.TagName.Contains(value)).ToListAsync();
+            return await _db.Contact.AsNoTracking().Where(p => p.Tag.TagName.Contains(value)).Include(p => p.Tag).ToListAsync();
         }
         #endregion
     }

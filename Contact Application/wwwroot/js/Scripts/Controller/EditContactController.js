@@ -22,7 +22,7 @@
     getSingleContactPromise.then(function (response) {
         
         $scope.contact = response.data;
-        //potrebno zbog toga sto nece populate napravit u selecetu ako je inteegr
+        //needed because of way of populate data in select
         $scope.contact.TagID = $scope.contact.TagID.toString();
     }, function errorCallback(error) {
         alert("Greška u dohvaćanju kontakta" + error.statusText);

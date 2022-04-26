@@ -21,10 +21,7 @@ namespace Contact_Application.Controllers
         [Route("AddContactController/AddContact")]
         [HttpPost]
         public async Task<ActionResult> AddNewContact([FromBody]ContactDTO newContact)
-        {
-            if (newContact == null)
-                return BadRequest();
-
+        {          
             try
             {
                 await _service.addNewContactAsync(newContact);

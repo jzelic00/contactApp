@@ -53,10 +53,7 @@ namespace Contact_Application.Controllers
         [Route("Home/delete")]
         [HttpDelete]
         public async Task<ActionResult> DeleteContact(int? contactId)
-        {
-            if (contactId == null)
-                return NotFound();
-
+        {           
             try
             {
                 await _service.deleteContact(contactId);

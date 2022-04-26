@@ -56,8 +56,6 @@
     //delete contact
     this.deleteMethod = function (ContactID) {
 
-        return $http.delete('Home/delete', { params: { ContactID: ContactID } });
-           
+        return $http.delete('Home/delete', { params: { ContactID: ContactID } });          
     };
-
 });
